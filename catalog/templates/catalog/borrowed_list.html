@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>All borrowed books and users </h1>
+{% if borrowed_list %}
+<ul>
+    {% for each in borrowed_list %}
+    <li class="{% if each.is_overdue %}text-danger{% endif %}"><a
+            href="{% url 'book-detail' each.book.pk %}">{{each.book.title}} </a> {{each.due_back}} -- {{each.borrower}}
+        {% if perms.catalog.staff_level %}
+        <a href="{% url 'renew-book-librarian' each.id %}">Renew</a>
+        {% endif %}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
